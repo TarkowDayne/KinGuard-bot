@@ -145,9 +145,11 @@ app.post('/ayarlar/gorusuruz', (req, res) => {
   else if (sunucu && !secilenKanal) db.delete(`gorusuruzKanal_${sunucu.id}`);
   res.redirect('/'); 
 });
+// Render'ın otomatik port atayabilmesi için ayar
+const port = process.env.PORT || 3000;
 
-app.listen(3000, () => {
-  console.log('[BAŞARILI] Web paneli aktif: http://localhost:3000');
+app.listen(port, () => {
+  console.log(`[BAŞARILI] Web paneli ${port} portunda aktif!`);
 });
 // --------------------------
 client.login(process.env.DISCORD_TOKEN);
