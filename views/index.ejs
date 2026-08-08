@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>KinGuard - Kontrol Paneli</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #2c2f33; color: white; text-align: center; padding: 30px; }
+        .kutu { background-color: #23272a; padding: 25px; border-radius: 10px; display: inline-block; margin: 15px; width: 300px; vertical-align: top; box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
+        h1 { color: #5865F2; margin-bottom: 40px; }
+        select { width: 100%; padding: 10px; margin-top: 10px; margin-bottom: 20px; border-radius: 5px; background: #2c2f33; color: white; border: 1px solid #5865F2; outline: none; }
+        button { padding: 10px 20px; background-color: #5865F2; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; width: 100%; transition: 0.2s; }
+        button:hover { background-color: #4752c4; }
+    </style>
+</head>
+<body>
+    <h1>🤖 KinGuard Kontrol Paneli</h1>
+
+    <!-- İstatistik Kutusu -->
+    <div class="kutu">
+        <h2>📊 Bot Bilgileri</h2>
+        <p><strong>Bot:</strong> <%= bot.user.username %></p>
+        <p><strong>Sunucu:</strong> <%= sunucu ? sunucu.name : 'Sunucu Bulunamadı' %></p>
+        <p><strong>Gecikme:</strong> <%= bot.ws.ping %> ms</p>
+    </div>
+
+    <!-- Oto-Rol Ayar Kutusu -->
+    <div class="kutu">
+        <h2>⚙️ Oto-Rol Sistemi</h2>
+        <% if (sunucu) { %>
+            <form action="/ayarlar/otorol" method="POST">
+                <label>Sunucuya girenlere verilecek rol:</label>
+                <select name="otorol">
+                    <option value="">-- Sistemi Kapat --</option>
+                    <% roller.forEach(rol => { %>
+                        <option value="<%= rol.id %>" <%= aktifOtorol === rol.id ? 'selected' : '' %>>
+                            @<%= rol.name %>
+                        </option>
+                    <% }) %>
+                </select>
+                <button type="submit">Kaydet</button>
+            </form>
+        <% } %>
+    </div>
+
+    <!-- Hoş Geldin Ayar Kutusu -->
+    <div class="kutu">
+        <h2>👋 Hoş Geldin Kanalı</h2>
+        <% if (sunucu) { %>
+            <form action="/ayarlar/hosgeldin" method="POST">
+                <label>Karşılama mesajı atılacak kanal:</label>
+                <select name="hosgeldin">
+                    <option value="">-- Sistemi Kapat --</option>
+                    <% kanallar.forEach(kanal => { %>
+                        <option value="<%= kanal.id %>" <%= aktifHosgeldin === kanal.id ? 'selected' : '' %>>
+                            #<%= kanal.name %>
+                        </option>
+                    <% }) %>
+                </select>
+                <button type="submit">Kaydet</button>
+            </form>
+        <% } %>
+    </div>
+
+    <!-- Görüşürüz Ayar Kutusu (YENİ) -->
+    <div class="kutu">
+        <h2>👋 Görüşürüz Kanalı</h2>
+        <% if (sunucu) { %>
+            <form action="/ayarlar/gorusuruz" method="POST">
+                <label>Veda mesajı atılacak kanal:</label>
+                <select name="gorusuruz">
+                    <option value="">-- Sistemi Kapat --</option>
+                    <% kanallar.forEach(kanal => { %>
+                        <option value="<%= kanal.id %>" <%= aktifGorusuruz === kanal.id ? 'selected' : '' %>>
+                            #<%= kanal.name %>
+                        </option>
+                    <% }) %>
+                </select>
+                <button type="submit">Kaydet</button>
+            </form>
+        <% } %>
+    </div>
+</body>
+</html>
